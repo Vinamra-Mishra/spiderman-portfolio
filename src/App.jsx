@@ -114,9 +114,9 @@ export default function App() {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [activeSection, setActiveSection] = useState('hero');
 
-  // Polygon assembly state
-  const [assemblyProgress, setAssemblyProgress] = useState(1); // Default 1 for immediate visibility
-  const [isAssembled, setIsAssembled] = useState(true);
+  // Polygon assembly state starts at 0 for the intro loading sequence
+  const [assemblyProgress, setAssemblyProgress] = useState(0); 
+  const [isAssembled, setIsAssembled] = useState(false);
   const [reassembleKey, setReassembleKey] = useState(0);
 
   // Sound Synthesizer
@@ -138,15 +138,13 @@ export default function App() {
     } catch(e) {}
   }, [soundEnabled]);
 
-  // Trigger Assembly Animation on Key Change
+  // Trigger Assembly Animation on Mount and Reassemble
   useEffect(() => {
-    if (reassembleKey === 0) return; // Skip on initial mount to keep instant load
-
     setAssemblyProgress(0);
     setIsAssembled(false);
     
     let startTime = performance.now();
-    const duration = 1800;
+    const duration = 2200; // 2.2 second 3D spider materialization
 
     const updateAssembly = (now) => {
       const elapsed = now - startTime;
@@ -211,30 +209,30 @@ export default function App() {
         triggerReassemble={triggerReassemble}
       />
 
-      {/* Single Page Vertical Viewport - 100% Always Rendered */}
+      {/* Single Page Vertical Viewport - UI hidden until spider assembled */}
       <main className="single-page-content">
         
-        <section id="hero" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
+        <section id="hero" className={!isAssembled ? 'ui-hidden' : 'polygon-forming'}>
           <HomePage isSpiderSense={isSpiderSense} playWebSound={playWebSound} />
         </section>
 
-        <section id="about" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
+        <section id="about" className={!isAssembled ? 'ui-hidden' : 'polygon-forming'}>
           <AboutPage isSpiderSense={isSpiderSense} />
         </section>
 
-        <section id="skills" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
+        <section id="skills" className={!isAssembled ? 'ui-hidden' : 'polygon-forming'}>
           <SkillsPage isSpiderSense={isSpiderSense} />
         </section>
 
-        <section id="projects" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
+        <section id="projects" className={!isAssembled ? 'ui-hidden' : 'polygon-forming'}>
           <ProjectsPage isSpiderSense={isSpiderSense} playWebSound={playWebSound} />
         </section>
 
-        <section id="timeline" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
+        <section id="timeline" className={!isAssembled ? 'ui-hidden' : 'polygon-forming'}>
           <TimelinePage isSpiderSense={isSpiderSense} />
         </section>
 
-        <section id="contact" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
+        <section id="contact" className={!isAssembled ? 'ui-hidden' : 'polygon-forming'}>
           <ContactPage isSpiderSense={isSpiderSense} />
         </section>
 
