@@ -115,8 +115,8 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('hero');
 
   // Polygon assembly state
-  const [assemblyProgress, setAssemblyProgress] = useState(0); // 0 to 1
-  const [isAssembled, setIsAssembled] = useState(false);
+  const [assemblyProgress, setAssemblyProgress] = useState(1); // Default 1 for immediate visibility
+  const [isAssembled, setIsAssembled] = useState(true);
   const [reassembleKey, setReassembleKey] = useState(0);
 
   // Sound Synthesizer
@@ -138,13 +138,15 @@ export default function App() {
     } catch(e) {}
   }, [soundEnabled]);
 
-  // Polygon assembly animation step
+  // Trigger Assembly Animation on Key Change
   useEffect(() => {
+    if (reassembleKey === 0) return; // Skip on initial mount to keep instant load
+
     setAssemblyProgress(0);
     setIsAssembled(false);
     
     let startTime = performance.now();
-    const duration = 2200; // 2.2s for 3D spider assembly
+    const duration = 1800;
 
     const updateAssembly = (now) => {
       const elapsed = now - startTime;
@@ -191,14 +193,14 @@ export default function App() {
 
   return (
     <div className="app-wrapper">
-      {/* Fixed 3D Polygon Background */}
+      {/* Fixed 3D Background Canvas */}
       <SpiderBackground 
         isSpiderSense={isSpiderSense} 
         isAssembled={isAssembled} 
         assemblyProgress={assemblyProgress}
       />
 
-      {/* Fixed Top Navbar */}
+      {/* Fixed Navbar & Marquee */}
       <Navbar 
         activeSection={activeSection}
         isSpiderSense={isSpiderSense} 
@@ -209,30 +211,30 @@ export default function App() {
         triggerReassemble={triggerReassemble}
       />
 
-      {/* Single Page Vertical Viewport */}
+      {/* Single Page Vertical Viewport - 100% Always Rendered */}
       <main className="single-page-content">
         
-        <section id="hero" className={isAssembled ? 'polygon-forming' : ''}>
+        <section id="hero" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
           <HomePage isSpiderSense={isSpiderSense} playWebSound={playWebSound} />
         </section>
 
-        <section id="about" className={isAssembled ? 'polygon-forming' : ''}>
+        <section id="about" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
           <AboutPage isSpiderSense={isSpiderSense} />
         </section>
 
-        <section id="skills" className={isAssembled ? 'polygon-forming' : ''}>
+        <section id="skills" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
           <SkillsPage isSpiderSense={isSpiderSense} />
         </section>
 
-        <section id="projects" className={isAssembled ? 'polygon-forming' : ''}>
+        <section id="projects" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
           <ProjectsPage isSpiderSense={isSpiderSense} playWebSound={playWebSound} />
         </section>
 
-        <section id="timeline" className={isAssembled ? 'polygon-forming' : ''}>
+        <section id="timeline" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
           <TimelinePage isSpiderSense={isSpiderSense} />
         </section>
 
-        <section id="contact" className={isAssembled ? 'polygon-forming' : ''}>
+        <section id="contact" className={reassembleKey > 0 && !isAssembled ? '' : 'polygon-forming'}>
           <ContactPage isSpiderSense={isSpiderSense} />
         </section>
 

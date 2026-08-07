@@ -7,7 +7,7 @@
   --neon-yellow: #D2FF00;
   --neon-yellow-glow: rgba(210, 255, 0, 0.4);
   --theme-black: #08090C;
-  --card-bg: rgba(14, 17, 23, 0.88);
+  --card-bg: rgba(14, 17, 23, 0.92);
   --card-border: #1E2430;
   
   /* Spider Accents */
@@ -51,7 +51,7 @@ body {
   background: var(--neon-yellow);
 }
 
-/* Fixed 3D Canvas */
+/* Fixed 3D Canvas Layer */
 .spider-bg-canvas {
   position: fixed;
   top: 0;
@@ -77,7 +77,7 @@ body {
   right: 0;
   z-index: 100;
   height: clamp(3.5rem, 5vh, 4.5rem);
-  background: rgba(8, 9, 12, 0.92);
+  background: rgba(8, 9, 12, 0.94);
   backdrop-filter: blur(20px);
   border-bottom: 2px solid var(--neon-yellow);
   display: flex;
@@ -120,6 +120,8 @@ body {
   padding: 0.3rem 0.6rem;
   transition: all 0.2s ease;
   position: relative;
+  background: transparent;
+  border: none;
   cursor: pointer;
 }
 
@@ -176,44 +178,40 @@ body {
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
-  padding: clamp(6rem, 10vh, 8rem) clamp(1rem, 3vw, 2.5rem) clamp(3rem, 6vw, 6rem) clamp(1rem, 3vw, 2.5rem);
+  padding: clamp(6.5rem, 11vh, 9rem) clamp(1rem, 3vw, 2.5rem) clamp(3rem, 6vw, 6rem) clamp(1rem, 3vw, 2.5rem);
   display: flex;
   flex-direction: column;
   gap: clamp(4rem, 8vw, 7rem);
+  position: relative;
+  z-index: 2;
 }
 
-/* Polygon Materialization Animations for Cards */
+/* Editorial Grid Card */
 .spider-card {
   background: var(--card-bg);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--card-border);
   position: relative;
   padding: clamp(1.25rem, 3.5vw, 2.5rem);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
-/* Polygon Formation Reveal */
+/* Smooth Polygon Reveal Animation (Always fallback to visible) */
 .polygon-forming {
-  animation: polygonAssemble 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  opacity: 0;
+  animation: polygonAssemble 0.8s ease-out forwards;
 }
 
 @keyframes polygonAssemble {
   0% {
-    opacity: 0;
-    clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
-    transform: scale(0.9) translateY(30px);
+    transform: scale(0.96) translateY(20px);
     border-color: var(--neon-yellow);
     box-shadow: 0 0 30px var(--neon-yellow-glow);
   }
-  50% {
-    clip-path: polygon(0 0, 100% 0, 50% 100%, 0% 100%);
-    border-color: var(--neon-yellow);
-  }
   100% {
-    opacity: 1;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     transform: scale(1) translateY(0);
+    border-color: var(--card-border);
   }
 }
 
@@ -235,7 +233,7 @@ body {
   font-weight: 900;
 }
 
-/* Buttons */
+/* Action Buttons */
 .spider-btn {
   display: inline-flex;
   align-items: center;
