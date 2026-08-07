@@ -1,12 +1,12 @@
-/* Spider-Man: Brand New Day - High-Performance Editorial UI System */
+/* Spider-Man: Brand New Day - Single Page Polygon Materialization UI System */
 
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Orbitron:wght@600;800;900&family=Outfit:wght@300;400;600;700;900&family=Syne:wght@700;800&display=swap');
 
 :root {
-  /* Core Theme Colors */
-  --neon-yellow: #D2FF00;       /* Signature Neon Lime */
+  /* Core Colors */
+  --neon-yellow: #D2FF00;
   --neon-yellow-glow: rgba(210, 255, 0, 0.4);
-  --theme-black: #08090C;       /* Jet Black */
+  --theme-black: #08090C;
   --card-bg: rgba(14, 17, 23, 0.88);
   --card-border: #1E2430;
   
@@ -27,9 +27,13 @@
   padding: 0;
 }
 
-html, body {
+html {
+  scroll-behavior: smooth;
+}
+
+body {
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   background-color: var(--theme-black);
   color: #FFFFFF;
   font-family: var(--font-body);
@@ -47,7 +51,7 @@ html, body {
   background: var(--neon-yellow);
 }
 
-/* 3D Fixed Background Canvas Layer */
+/* Fixed 3D Canvas */
 .spider-bg-canvas {
   position: fixed;
   top: 0;
@@ -58,16 +62,14 @@ html, body {
   pointer-events: none;
 }
 
-/* Layout Wrapper */
+/* App Wrapper for Single Page Viewport */
 .app-wrapper {
   position: relative;
   z-index: 1;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
 }
 
-/* Fluid Top Navigation Bar */
+/* Header Navbar */
 .app-navbar {
   position: fixed;
   top: 0;
@@ -89,6 +91,7 @@ html, body {
   align-items: center;
   gap: 0.6rem;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .app-badge {
@@ -103,7 +106,7 @@ html, body {
 
 .app-nav-links {
   display: flex;
-  gap: clamp(0.8rem, 2vw, 1.5rem);
+  gap: clamp(0.6rem, 1.5vw, 1.25rem);
 }
 
 .app-nav-link {
@@ -117,6 +120,7 @@ html, body {
   padding: 0.3rem 0.6rem;
   transition: all 0.2s ease;
   position: relative;
+  cursor: pointer;
 }
 
 .app-nav-link:hover, .app-nav-link.active {
@@ -135,7 +139,7 @@ html, body {
   box-shadow: 0 0 10px var(--neon-yellow);
 }
 
-/* Infinite Marquee Banner */
+/* Marquee Ticker */
 .marquee-container {
   width: 100%;
   overflow: hidden;
@@ -150,7 +154,11 @@ html, body {
   text-transform: uppercase;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
-  margin-top: clamp(3.5rem, 5vh, 4.5rem);
+  position: fixed;
+  top: clamp(3.5rem, 5vh, 4.5rem);
+  left: 0;
+  right: 0;
+  z-index: 99;
 }
 
 .marquee-content {
@@ -163,16 +171,18 @@ html, body {
   100% { transform: translateX(-50%); }
 }
 
-/* Main Viewport Container */
-.app-viewport {
+/* Single Page Section Container */
+.single-page-content {
   max-width: 1400px;
   width: 100%;
-  margin: clamp(1.2rem, 3vw, 2.5rem) auto;
-  padding: 0 clamp(1rem, 3vw, 2.5rem) clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 2.5rem);
-  flex: 1;
+  margin: 0 auto;
+  padding: clamp(6rem, 10vh, 8rem) clamp(1rem, 3vw, 2.5rem) clamp(3rem, 6vw, 6rem) clamp(1rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4rem, 8vw, 7rem);
 }
 
-/* Editorial Grid Card */
+/* Polygon Materialization Animations for Cards */
 .spider-card {
   background: var(--card-bg);
   backdrop-filter: blur(16px);
@@ -180,6 +190,31 @@ html, body {
   position: relative;
   padding: clamp(1.25rem, 3.5vw, 2.5rem);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Polygon Formation Reveal */
+.polygon-forming {
+  animation: polygonAssemble 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes polygonAssemble {
+  0% {
+    opacity: 0;
+    clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+    transform: scale(0.9) translateY(30px);
+    border-color: var(--neon-yellow);
+    box-shadow: 0 0 30px var(--neon-yellow-glow);
+  }
+  50% {
+    clip-path: polygon(0 0, 100% 0, 50% 100%, 0% 100%);
+    border-color: var(--neon-yellow);
+  }
+  100% {
+    opacity: 1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transform: scale(1) translateY(0);
+  }
 }
 
 .spider-card:hover {
@@ -200,7 +235,7 @@ html, body {
   font-weight: 900;
 }
 
-/* High-Contrast Action Button */
+/* Buttons */
 .spider-btn {
   display: inline-flex;
   align-items: center;
@@ -256,7 +291,7 @@ html, body {
   transform: rotate(-2deg);
 }
 
-/* Fluid Layout Grids */
+/* Layout Grids */
 .spider-grid-2 { 
   display: grid; 
   grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 30vw, 360px), 1fr)); 

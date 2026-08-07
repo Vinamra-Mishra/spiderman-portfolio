@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
 import SpiderBackground from './components/SpiderBackground';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -7,45 +6,72 @@ import SkillsPage from './pages/SkillsPage';
 import ProjectsPage from './pages/ProjectsPage';
 import TimelinePage from './pages/TimelinePage';
 import ContactPage from './pages/ContactPage';
-import { Volume2, VolumeX } from 'lucide-react';
+import { Volume2, VolumeX, RefreshCw } from 'lucide-react';
 import './styles/index.css';
 
-function Navbar({ isSpiderSense, toggleSpiderSense, soundEnabled, setSoundEnabled, playWebSound }) {
-  const location = useLocation();
-
+function Navbar({ activeSection, isSpiderSense, toggleSpiderSense, soundEnabled, setSoundEnabled, playWebSound, triggerReassemble }) {
   const links = [
-    { path: '/', label: 'OVERVIEW' },
-    { path: '/about', label: 'ORIGIN & SPECS' },
-    { path: '/skills', label: 'ARSENAL' },
-    { path: '/projects', label: 'MISSIONS' },
-    { path: '/timeline', label: 'TRAJECTORY' },
-    { path: '/contact', label: 'CONTACT' },
+    { id: 'hero', label: 'OVERVIEW' },
+    { id: 'about', label: 'ORIGIN & SPECS' },
+    { id: 'skills', label: 'ARSENAL' },
+    { id: 'projects', label: 'MISSIONS' },
+    { id: 'timeline', label: 'TRAJECTORY' },
+    { id: 'contact', label: 'CONTACT' },
   ];
+
+  const scrollToSection = (id) => {
+    playWebSound();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
       <nav className="app-navbar">
-        <NavLink to="/" className="app-logo-mark" onClick={playWebSound}>
+        <div className="app-logo-mark" onClick={() => scrollToSection('hero')}>
           <div className="app-badge">VKM</div>
           <div className="font-hud" style={{ fontSize: '1.1rem', fontWeight: '900', color: '#FFF', letterSpacing: '2px' }}>
             VINAMRA
           </div>
-        </NavLink>
+        </div>
 
         <div className="app-nav-links">
           {links.map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              onClick={playWebSound}
-              className={`app-nav-link ${location.pathname === link.path ? 'active' : ''}`}
+            <button
+              key={link.id}
+              onClick={() => scrollToSection(link.id)}
+              className={`app-nav-link ${activeSection === link.id ? 'active' : ''}`}
             >
               {link.label}
-            </NavLink>
+            </button>
           ))}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          {/* Re-Assemble Polygon Trigger */}
+          <button
+            onClick={() => { playWebSound(); triggerReassemble(); }}
+            className="font-hud"
+            style={{
+              background: 'transparent',
+              color: 'var(--neon-yellow)',
+              border: '1px solid var(--neon-yellow)',
+              fontSize: '0.7rem',
+              fontWeight: 'bold',
+              padding: '0.35rem 0.7rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.3rem',
+              transform: 'skewX(-6deg)'
+            }}
+            title="Re-assemble 3D Spider and UI Polygons"
+          >
+            <RefreshCw size={12} /> RE-ASSEMBLE
+          </button>
+
           <button
             onClick={() => { playWebSound(); toggleSpiderSense(); }}
             style={{
@@ -53,8 +79,8 @@ function Navbar({ isSpiderSense, toggleSpiderSense, soundEnabled, setSoundEnable
               color: isSpiderSense ? '#FFF' : '#08090C',
               fontFamily: 'var(--font-hud)',
               fontWeight: '900',
-              fontSize: '0.75rem',
-              padding: '0.4rem 0.8rem',
+              fontSize: '0.7rem',
+              padding: '0.4rem 0.7rem',
               border: 'none',
               cursor: 'pointer',
               transform: 'skewX(-6deg)'
@@ -67,7 +93,7 @@ function Navbar({ isSpiderSense, toggleSpiderSense, soundEnabled, setSoundEnable
             onClick={() => { setSoundEnabled(!soundEnabled); playWebSound(); }}
             style={{ background: 'transparent', border: 'none', color: soundEnabled ? 'var(--neon-yellow)' : '#6B7280', cursor: 'pointer' }}
           >
-            {soundEnabled ? <Volume2 size={22} /> : <VolumeX size={22} />}
+            {soundEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
           </button>
         </div>
       </nav>
@@ -75,8 +101,8 @@ function Navbar({ isSpiderSense, toggleSpiderSense, soundEnabled, setSoundEnable
       {/* Marquee Ticker */}
       <div className="marquee-container">
         <div className="marquee-content">
-          VINAMRA KUMAR MISHRA // FULL-STACK & AI SYSTEMS ENGINEER // BRAND NEW DAY PROTOCOL // ON TRACK FOR GREATNESS // SPIDER-MAN 3D EXPERIENCE // &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          VINAMRA KUMAR MISHRA // FULL-STACK & AI SYSTEMS ENGINEER // BRAND NEW DAY PROTOCOL // ON TRACK FOR GREATNESS // SPIDER-MAN 3D EXPERIENCE //
+          VINAMRA KUMAR MISHRA // FULL-STACK & AI SYSTEMS ENGINEER // BRAND NEW DAY PROTOCOL // 3D POLYGON MATERIALIZATION ACTIVE // ON TRACK FOR GREATNESS // &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          VINAMRA KUMAR MISHRA // FULL-STACK & AI SYSTEMS ENGINEER // BRAND NEW DAY PROTOCOL // 3D POLYGON MATERIALIZATION ACTIVE // ON TRACK FOR GREATNESS //
         </div>
       </div>
     </>
@@ -86,7 +112,14 @@ function Navbar({ isSpiderSense, toggleSpiderSense, soundEnabled, setSoundEnable
 export default function App() {
   const [isSpiderSense, setIsSpiderSense] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [activeSection, setActiveSection] = useState('hero');
 
+  // Polygon assembly state
+  const [assemblyProgress, setAssemblyProgress] = useState(0); // 0 to 1
+  const [isAssembled, setIsAssembled] = useState(false);
+  const [reassembleKey, setReassembleKey] = useState(0);
+
+  // Sound Synthesizer
   const playWebSound = useCallback(() => {
     if (!soundEnabled) return;
     try {
@@ -94,45 +127,116 @@ export default function App() {
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.1);
+      osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.15);
       gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.1);
+      osc.stop(audioCtx.currentTime + 0.15);
     } catch(e) {}
   }, [soundEnabled]);
+
+  // Polygon assembly animation step
+  useEffect(() => {
+    setAssemblyProgress(0);
+    setIsAssembled(false);
+    
+    let startTime = performance.now();
+    const duration = 2200; // 2.2s for 3D spider assembly
+
+    const updateAssembly = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      setAssemblyProgress(progress);
+
+      if (progress < 1) {
+        requestAnimationFrame(updateAssembly);
+      } else {
+        setIsAssembled(true);
+        playWebSound();
+      }
+    };
+
+    const animId = requestAnimationFrame(updateAssembly);
+    return () => cancelAnimationFrame(animId);
+  }, [reassembleKey, playWebSound]);
+
+  // Section Observer for Active Navigation
+  useEffect(() => {
+    const sectionIds = ['hero', 'about', 'skills', 'projects', 'timeline', 'contact'];
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 200;
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sectionIds[i]);
+        if (section && section.offsetTop <= scrollPos) {
+          setActiveSection(sectionIds[i]);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const triggerReassemble = () => {
+    setReassembleKey(prev => prev + 1);
+  };
 
   const toggleSpiderSense = () => {
     setIsSpiderSense(!isSpiderSense);
   };
 
   return (
-    <Router>
-      <div className="app-wrapper">
-        <SpiderBackground isSpiderSense={isSpiderSense} />
+    <div className="app-wrapper">
+      {/* Fixed 3D Polygon Background */}
+      <SpiderBackground 
+        isSpiderSense={isSpiderSense} 
+        isAssembled={isAssembled} 
+        assemblyProgress={assemblyProgress}
+      />
 
-        <Navbar 
-          isSpiderSense={isSpiderSense} 
-          toggleSpiderSense={toggleSpiderSense}
-          soundEnabled={soundEnabled}
-          setSoundEnabled={setSoundEnabled}
-          playWebSound={playWebSound}
-        />
+      {/* Fixed Top Navbar */}
+      <Navbar 
+        activeSection={activeSection}
+        isSpiderSense={isSpiderSense} 
+        toggleSpiderSense={toggleSpiderSense}
+        soundEnabled={soundEnabled}
+        setSoundEnabled={setSoundEnabled}
+        playWebSound={playWebSound}
+        triggerReassemble={triggerReassemble}
+      />
 
-        <main className="app-viewport">
-          <Routes>
-            <Route path="/" element={<HomePage isSpiderSense={isSpiderSense} playWebSound={playWebSound} />} />
-            <Route path="/about" element={<AboutPage isSpiderSense={isSpiderSense} />} />
-            <Route path="/skills" element={<SkillsPage isSpiderSense={isSpiderSense} />} />
-            <Route path="/projects" element={<ProjectsPage isSpiderSense={isSpiderSense} playWebSound={playWebSound} />} />
-            <Route path="/timeline" element={<TimelinePage isSpiderSense={isSpiderSense} />} />
-            <Route path="/contact" element={<ContactPage isSpiderSense={isSpiderSense} />} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+      {/* Single Page Vertical Viewport */}
+      <main className="single-page-content">
+        
+        <section id="hero" className={isAssembled ? 'polygon-forming' : ''}>
+          <HomePage isSpiderSense={isSpiderSense} playWebSound={playWebSound} />
+        </section>
+
+        <section id="about" className={isAssembled ? 'polygon-forming' : ''}>
+          <AboutPage isSpiderSense={isSpiderSense} />
+        </section>
+
+        <section id="skills" className={isAssembled ? 'polygon-forming' : ''}>
+          <SkillsPage isSpiderSense={isSpiderSense} />
+        </section>
+
+        <section id="projects" className={isAssembled ? 'polygon-forming' : ''}>
+          <ProjectsPage isSpiderSense={isSpiderSense} playWebSound={playWebSound} />
+        </section>
+
+        <section id="timeline" className={isAssembled ? 'polygon-forming' : ''}>
+          <TimelinePage isSpiderSense={isSpiderSense} />
+        </section>
+
+        <section id="contact" className={isAssembled ? 'polygon-forming' : ''}>
+          <ContactPage isSpiderSense={isSpiderSense} />
+        </section>
+
+      </main>
+    </div>
   );
 }

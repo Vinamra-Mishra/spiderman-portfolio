@@ -1,12 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { ArrowUpRight, Zap } from 'lucide-react';
 
 export default function HomePage({ isSpiderSense, playWebSound }) {
   const accentColor = isSpiderSense ? 'var(--spider-red)' : 'var(--neon-yellow)';
 
-  const handleLaunch = () => {
+  const handleLaunch = (targetId) => {
     playWebSound();
     confetti({
       particleCount: 140,
@@ -14,6 +13,9 @@ export default function HomePage({ isSpiderSense, playWebSound }) {
       origin: { y: 0.6 },
       colors: isSpiderSense ? ['#E11D48', '#000'] : ['#D2FF00', '#FFFFFF', '#08090C']
     });
+
+    const el = document.getElementById(targetId);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -48,13 +50,13 @@ export default function HomePage({ isSpiderSense, playWebSound }) {
           </p>
 
           <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
-            <Link to="/projects" className="spider-btn" onClick={handleLaunch}>
+            <button className="spider-btn" onClick={() => handleLaunch('projects')}>
               <span>EXPLORE MISSIONS</span> <ArrowUpRight size={20} />
-            </Link>
+            </button>
             
-            <Link to="/contact" className="spider-btn spider-btn-secondary" onClick={playWebSound}>
+            <button className="spider-btn spider-btn-secondary" onClick={() => handleLaunch('contact')}>
               <span>LAUNCH SIGNAL</span> <Zap size={18} />
-            </Link>
+            </button>
           </div>
         </div>
 
@@ -87,9 +89,9 @@ export default function HomePage({ isSpiderSense, playWebSound }) {
           <p style={{ color: '#9CA3AF', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
             Building production-ready Agentic workflows, PyTorch deep learning models, high-concurrency Node/Python backend servers, and dynamic 3D React web apps.
           </p>
-          <Link to="/skills" className="spider-btn spider-btn-secondary" style={{ fontSize: '0.75rem', padding: '0.6rem 1.2rem' }}>
+          <button onClick={() => handleLaunch('skills')} className="spider-btn spider-btn-secondary" style={{ fontSize: '0.75rem', padding: '0.6rem 1.2rem' }}>
             <span>VIEW TECH ARSENAL</span>
-          </Link>
+          </button>
         </div>
 
         {/* OFF TRACK (Origin) */}
@@ -100,9 +102,9 @@ export default function HomePage({ isSpiderSense, playWebSound }) {
           <p style={{ color: '#9CA3AF', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
             Pursuing Computer Science & Engineering (2021-Present, 8.44 CGPA). Certified by AWS, Oracle, and NPTEL in Cloud and System Design.
           </p>
-          <Link to="/about" className="spider-btn spider-btn-secondary" style={{ fontSize: '0.75rem', padding: '0.6rem 1.2rem' }}>
+          <button onClick={() => handleLaunch('about')} className="spider-btn spider-btn-secondary" style={{ fontSize: '0.75rem', padding: '0.6rem 1.2rem' }}>
             <span>READ SPECIFICATIONS</span>
-          </Link>
+          </button>
         </div>
 
       </div>

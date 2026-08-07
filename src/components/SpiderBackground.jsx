@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, useAnimations, Html, Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
-function SpiderGLTF({ isSpiderSense }) {
+function SpiderGLTF({ isSpiderSense, isAssembled, assemblyProgress }) {
   const groupRef = useRef();
   const { scene, animations } = useGLTF('/models/spider.glb');
   const { actions, names } = useAnimations(animations, groupRef);
@@ -36,35 +36,55 @@ function SpiderGLTF({ isSpiderSense }) {
     return { normalizedScene: clone, baseScale: calculatedScale };
   }, [scene]);
 
-  // Dynamic Responsive Scale based on screen aspect ratio
+  // Responsive scale based on aspect ratio
   const responsiveScale = useMemo(() => {
-    if (aspect < 0.75) return baseScale * 0.7; // Mobile vertical screen scale down
-    if (aspect < 1.2) return baseScale * 0.85; // Tablet / Square screen
-    return baseScale;                          // Desktop widescreen
-  }, [aspect, baseScale]);
+    let scaleMultiplier = 1;
+    if (aspect < 0.75) scaleMultiplier = 0.7;
+    else if (aspect < 1.2) scaleMultiplier = 0.85;
+
+    // During assembly animation: start expanded/exploded, then contract into final scale
+    const currentScale = baseScale * scaleMultiplier * (1 + (1 - assemblyProgress) * 0.8);
+    return currentScale;
+  }, [aspect, baseScale, assemblyProgress]);
 
   useEffect(() => {
     if (!normalizedScene) return;
     normalizedScene.traverse((child) => {
       if (child.isMesh && child.material) {
         child.material = child.material.clone();
-        child.material.metalness = 0.95;
-        child.material.roughness = 0.1;
-        if (isSpiderSense) {
-          child.material.emissive = new THREE.Color('#E11D48');
-          child.material.emissiveIntensity = 0.9;
+        
+        // Polygon wireframe state morphing into solid metallic
+        if (assemblyProgress < 0.9) {
+          child.material.wireframe = true;
+          child.material.metalness = 0.5;
+          child.material.roughness = 0.5;
+          child.material.emissive = new THREE.Color(isSpiderSense ? '#E11D48' : '#D2FF00');
+          child.material.emissiveIntensity = 1.0;
         } else {
-          child.material.emissive = new THREE.Color('#D2FF00');
-          child.material.emissiveIntensity = 0.5;
+          child.material.wireframe = false;
+          child.material.metalness = 0.95;
+          child.material.roughness = 0.1;
+          if (isSpiderSense) {
+            child.material.emissive = new THREE.Color('#E11D48');
+            child.material.emissiveIntensity = 0.9;
+          } else {
+            child.material.emissive = new THREE.Color('#D2FF00');
+            child.material.emissiveIntensity = 0.5;
+          }
         }
       }
     });
-  }, [normalizedScene, isSpiderSense]);
+  }, [normalizedScene, isSpiderSense, assemblyProgress]);
 
   useFrame((_, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.25;
-      groupRef.current.position.set(0, 0, 0);
+      // Rotate faster during assembly sequence
+      const rotSpeed = assemblyProgress < 1 ? delta * 1.5 : delta * 0.25;
+      groupRef.current.rotation.y += rotSpeed;
+      
+      // Floating offset during assembly
+      const floatY = (1 - assemblyProgress) * Math.sin(Date.now() * 0.005) * 0.3;
+      groupRef.current.position.set(0, floatY, 0);
     }
   });
 
@@ -75,35 +95,53 @@ function SpiderGLTF({ isSpiderSense }) {
   );
 }
 
-function WebParticles({ isSpiderSense }) {
+// 3D Floating Polygon Fragments Cloud assembling into the spider
+function PolygonAssemblyParticles({ isSpiderSense, assemblyProgress }) {
   const ref = useRef();
-  const sphere = useMemo(() => {
-    const positions = new Float32Array(250 * 3);
-    for(let i=0; i<250; i++) {
+  const particleCount = 350;
+
+  const { positions, origPositions } = useMemo(() => {
+    const pos = new Float32Array(particleCount * 3);
+    const orig = new Float32Array(particleCount * 3);
+    for(let i = 0; i < particleCount; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos((Math.random() * 2) - 1);
-      const r = 2.5 + Math.random() * 5.0;
-      positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
-      positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-      positions[i*3+2] = r * Math.cos(phi);
+      const r = 1.5 + Math.random() * 4.0;
+      
+      orig[i*3] = r * Math.sin(phi) * Math.cos(theta);
+      orig[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+      orig[i*3+2] = r * Math.cos(phi);
+
+      pos[i*3] = orig[i*3];
+      pos[i*3+1] = orig[i*3+1];
+      pos[i*3+2] = orig[i*3+2];
     }
-    return positions;
+    return { positions: pos, origPositions: orig };
   }, []);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (ref.current) {
-      ref.current.rotation.x -= delta / 10;
-      ref.current.rotation.y -= delta / 15;
+      const positionsArr = ref.current.geometry.attributes.position.array;
+      const factor = 1 - assemblyProgress; // 1 down to 0
+      
+      for (let i = 0; i < particleCount; i++) {
+        // Contract particles inward toward origin as assemblyProgress reaches 1
+        positionsArr[i*3] = origPositions[i*3] * factor;
+        positionsArr[i*3+1] = origPositions[i*3+1] * factor;
+        positionsArr[i*3+2] = origPositions[i*3+2] * factor;
+      }
+      ref.current.geometry.attributes.position.needsUpdate = true;
+      ref.current.rotation.y += delta * 0.5;
     }
   });
 
   return (
-    <group rotation={[0, 0, Math.PI / 4]}>
-      <Points ref={ref} positions={sphere} stride={3} frustumCulled={false}>
+    <group>
+      <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
         <PointMaterial 
           transparent 
           color={isSpiderSense ? '#E11D48' : '#D2FF00'} 
-          size={0.06} 
+          size={0.08} 
           sizeAttenuation={true} 
           depthWrite={false} 
           blending={THREE.AdditiveBlending} 
@@ -117,13 +155,13 @@ function Loader() {
   return (
     <Html center>
       <div className="font-hud" style={{ color: 'var(--neon-yellow)', background: '#08090C', padding: '0.8rem 1.5rem', border: '2px solid var(--neon-yellow)', fontSize: '0.8rem' }}>
-        LOADING CANVAS...
+        INITIALIZING POLYGON MESH...
       </div>
     </Html>
   );
 }
 
-export default function SpiderBackground({ isSpiderSense }) {
+export default function SpiderBackground({ isSpiderSense, isAssembled, assemblyProgress }) {
   return (
     <div className="spider-bg-canvas">
       <Canvas
@@ -136,8 +174,15 @@ export default function SpiderBackground({ isSpiderSense }) {
         <directionalLight position={[-5, -5, -5]} intensity={0.8} color="#E11D48" />
         
         <React.Suspense fallback={<Loader />}>
-          <SpiderGLTF isSpiderSense={isSpiderSense} />
-          <WebParticles isSpiderSense={isSpiderSense} />
+          <SpiderGLTF 
+            isSpiderSense={isSpiderSense} 
+            isAssembled={isAssembled} 
+            assemblyProgress={assemblyProgress} 
+          />
+          <PolygonAssemblyParticles 
+            isSpiderSense={isSpiderSense} 
+            assemblyProgress={assemblyProgress} 
+          />
         </React.Suspense>
       </Canvas>
     </div>
