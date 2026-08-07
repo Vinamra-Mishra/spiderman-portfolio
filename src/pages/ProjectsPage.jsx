@@ -68,7 +68,8 @@ export default function ProjectsPage({ isSpiderSense, playWebSound }) {
               </p>
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '2rem' }}>
-                {project.technologies.map(t => (
+                {/* FIX: Changed project.technologies to project.tags to match portfolioData.js */}
+                {project.tags?.map(t => (
                   <span key={t} style={{ fontSize: '0.75rem', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--card-border)', padding: '0.2rem 0.5rem', color: '#9CA3AF' }}>
                     {t}
                   </span>
@@ -84,13 +85,14 @@ export default function ProjectsPage({ isSpiderSense, playWebSound }) {
                   <span>DEBRIEF LOG</span> <ArrowUpRight size={16} />
                 </button>
 
-                {project.links.github && (
-                  <a href={project.links.github} target="_blank" rel="noreferrer" className="spider-btn spider-btn-secondary" style={{ padding: '0.6rem' }}>
+                {/* FIX: Match portfolioData.js keys project.github and project.demo */}
+                {project.github && (
+                  <a href={project.github} target="_blank" rel="noreferrer" className="spider-btn spider-btn-secondary" style={{ padding: '0.6rem' }}>
                     <Github size={18} />
                   </a>
                 )}
-                {project.links.live && (
-                  <a href={project.links.live} target="_blank" rel="noreferrer" className="spider-btn spider-btn-secondary" style={{ padding: '0.6rem' }}>
+                {project.demo && (
+                  <a href={project.demo} target="_blank" rel="noreferrer" className="spider-btn spider-btn-secondary" style={{ padding: '0.6rem' }}>
                     <ExternalLink size={18} />
                   </a>
                 )}
