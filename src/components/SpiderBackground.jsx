@@ -49,28 +49,43 @@ function SpiderGLTF({ isSpiderSense, isAssembled, assemblyProgress }) {
 
   useEffect(() => {
     if (!normalizedScene) return;
-    normalizedScene.traverse((child) => {
-      if (child.isMesh && child.material) {
-        child.material = child.material.clone();
-        if (assemblyProgress < 0.9) {
-          child.material.wireframe = true;
-          child.material.emissive = new THREE.Color(isSpiderSense ? '#E11D48' : '#D2FF00');
-          child.material.emissiveIntensity = 1.0;
-        } else {
-          child.material.wireframe = false;
-          child.material.metalness = 0.95;
-          child.material.roughness = 0.1;
-          if (isSpiderSense) {
-            child.material.emissive = new THREE.Color('#E11D48');
-            child.material.emissiveIntensity = 0.9;
+    
+    try {
+      normalizedScene.traverse((child) => {
+        if (child.isMesh && child.material) {
+          // Handle both array of materials and single material safely
+          if (Array.isArray(child.material)) {
+            child.material = child.material.map(mat => mat.clone());
+            child.material.forEach(mat => applyMaterialProperties(mat, assemblyProgress, isSpiderSense));
           } else {
-            child.material.emissive = new THREE.Color('#D2FF00');
-            child.material.emissiveIntensity = 0.5;
+            child.material = child.material.clone();
+            applyMaterialProperties(child.material, assemblyProgress, isSpiderSense);
           }
         }
-      }
-    });
+      });
+    } catch (err) {
+      console.warn("Could not clone materials, rendering default:", err);
+    }
   }, [normalizedScene, isSpiderSense, assemblyProgress]);
+
+  function applyMaterialProperties(mat, progress, isSense) {
+    if (progress < 0.9) {
+      mat.wireframe = true;
+      mat.emissive = new THREE.Color(isSense ? '#E11D48' : '#D2FF00');
+      mat.emissiveIntensity = 1.0;
+    } else {
+      mat.wireframe = false;
+      mat.metalness = 0.95;
+      mat.roughness = 0.1;
+      if (isSense) {
+        mat.emissive = new THREE.Color('#E11D48');
+        mat.emissiveIntensity = 0.9;
+      } else {
+        mat.emissive = new THREE.Color('#D2FF00');
+        mat.emissiveIntensity = 0.5;
+      }
+    }
+  }
 
   useFrame((_, delta) => {
     if (groupRef.current) {
