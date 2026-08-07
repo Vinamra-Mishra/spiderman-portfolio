@@ -1,0 +1,276 @@
+/* Lando Norris X Spider-Man: High-Performance Editorial UI System (Fluid Scaling) */
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Orbitron:wght@600;800;900&family=Outfit:wght@300;400;600;700;900&family=Syne:wght@700;800&display=swap');
+
+:root {
+  /* Colors */
+  --ln-neon: #D2FF00;          /* Signature Neon Yellow/Lime */
+  --ln-neon-glow: rgba(210, 255, 0, 0.4);
+  --ln-black: #08090C;         /* Jet Black */
+  --ln-card-bg: rgba(14, 17, 23, 0.88);
+  --ln-border: #1E2430;
+  
+  /* Spider Accents */
+  --spider-red: #E11D48;
+  --spider-red-glow: rgba(225, 29, 72, 0.5);
+  
+  /* Fonts */
+  --font-display: 'Anton', 'Syne', sans-serif;
+  --font-hud: 'Orbitron', monospace;
+  --font-comic: 'Bangers', cursive;
+  --font-body: 'Outfit', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--ln-black);
+  color: #FFFFFF;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Custom LN Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ln-black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ln-neon);
+}
+
+/* 3D Fixed Background Canvas Layer */
+.spider-bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Layout Wrapper */
+.ln-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fluid Top Navigation Bar */
+.ln-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: clamp(3.5rem, 5vh, 4.5rem);
+  background: rgba(8, 9, 12, 0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid var(--ln-neon);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(1rem, 4vw, 2.5rem);
+}
+
+.ln-logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+.ln-badge {
+  background: var(--ln-neon);
+  color: var(--ln-black);
+  font-family: var(--font-hud);
+  font-weight: 900;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  padding: 0.2rem clamp(0.4rem, 1vw, 0.6rem);
+  transform: skewX(-10deg);
+}
+
+.ln-nav-links {
+  display: flex;
+  gap: clamp(0.8rem, 2vw, 1.5rem);
+}
+
+.ln-nav-link {
+  color: #9CA3AF;
+  font-family: var(--font-hud);
+  font-size: clamp(0.7rem, 1vw, 0.85rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 1px;
+  padding: 0.3rem 0.6rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.ln-nav-link:hover, .ln-nav-link.active {
+  color: var(--ln-neon);
+  background: rgba(210, 255, 0, 0.08);
+}
+
+.ln-nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ln-neon);
+  box-shadow: 0 0 10px var(--ln-neon);
+}
+
+/* Infinite Marquee Banner */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background: var(--ln-neon);
+  color: var(--ln-black);
+  padding: clamp(0.3rem, 0.8vh, 0.5rem) 0;
+  white-space: nowrap;
+  font-family: var(--font-hud);
+  font-weight: 900;
+  font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  margin-top: clamp(3.5rem, 5vh, 4.5rem);
+}
+
+.marquee-content {
+  display: inline-block;
+  animation: marquee 25s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Main Viewport Container */
+.ln-viewport {
+  max-width: 1400px;
+  width: 100%;
+  margin: clamp(1.2rem, 3vw, 2.5rem) auto;
+  padding: 0 clamp(1rem, 3vw, 2.5rem) clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 2.5rem);
+  flex: 1;
+}
+
+/* Lando Norris Style Editorial Grid Card */
+.ln-card {
+  background: var(--ln-card-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--ln-border);
+  position: relative;
+  padding: clamp(1.25rem, 3.5vw, 2.5rem);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ln-card:hover {
+  border-color: var(--ln-neon);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(210, 255, 0, 0.15);
+}
+
+/* Fluid Number Accent */
+.ln-number {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  color: rgba(255, 255, 255, 0.08);
+  position: absolute;
+  top: clamp(0.5rem, 1.5vw, 1.25rem);
+  right: clamp(1rem, 2vw, 1.75rem);
+  line-height: 1;
+  pointer-events: none;
+  font-weight: 900;
+}
+
+/* High-Contrast Action Button */
+.ln-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--ln-neon);
+  color: var(--ln-black);
+  font-family: var(--font-hud);
+  font-weight: 900;
+  font-size: clamp(0.75rem, 1.1vw, 0.85rem);
+  padding: clamp(0.6rem, 1.5vw, 0.85rem) clamp(1.1rem, 2.5vw, 1.8rem);
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transform: skewX(-6deg);
+  transition: all 0.2s ease;
+  box-shadow: 0 0 15px var(--ln-neon-glow);
+}
+
+.ln-btn span {
+  transform: skewX(6deg);
+}
+
+.ln-btn:hover {
+  background: #FFF;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+  transform: skewX(-6deg) translateY(-2px);
+}
+
+.ln-btn-secondary {
+  background: transparent;
+  color: #FFF;
+  border: 2px solid var(--ln-neon);
+  box-shadow: none;
+}
+
+.ln-btn-secondary:hover {
+  background: var(--ln-neon);
+  color: var(--ln-black);
+}
+
+/* Sticker Tag */
+.sticker-tag {
+  display: inline-block;
+  background: var(--spider-red);
+  color: #FFF;
+  font-family: var(--font-hud);
+  font-size: clamp(0.65rem, 0.9vw, 0.75rem);
+  font-weight: 700;
+  padding: 0.2rem clamp(0.4rem, 1vw, 0.6rem);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transform: rotate(-2deg);
+}
+
+/* Fluid Layout Grids */
+.ln-grid-2 { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 30vw, 360px), 1fr)); 
+  gap: clamp(1.25rem, 2.5vw, 2rem); 
+}
+
+.ln-grid-3 { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 25vw, 320px), 1fr)); 
+  gap: clamp(1.25rem, 2.5vw, 2rem); 
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ln-nav-links { display: none; }
+  .ln-card { padding: 1.25rem; }
+}
