@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { projects } from '../data/portfolioData';
-import { Github, ExternalLink, Activity, ArrowUpRight } from 'lucide-react';
+import { Github, ExternalLink, ArrowUpRight } from 'lucide-react';
 import ProjectModal from '../components/ProjectModal';
 
 export default function ProjectsPage({ isSpiderSense, playWebSound }) {
   const [filter, setFilter] = useState('ALL');
   const [selectedProject, setSelectedProject] = useState(null);
-  const accentColor = isSpiderSense ? 'var(--spider-red)' : 'var(--ln-neon)';
+  const accentColor = isSpiderSense ? 'var(--spider-red)' : 'var(--neon-yellow)';
 
   const categories = ['ALL', 'AI & Agentic', 'Web Applications', 'Robotics & Hardware'];
   const filteredProjects = filter === 'ALL' ? projects : projects.filter(p => p.category === filter);
@@ -14,8 +14,8 @@ export default function ProjectsPage({ isSpiderSense, playWebSound }) {
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       
-      <div className="ln-card">
-        <div className="ln-number">03</div>
+      <div className="spider-card">
+        <div className="card-number">03</div>
         <div className="sticker-tag" style={{ marginBottom: '1rem' }}>DAILY BUGLE // MISSION LOGS</div>
         <h1 className="font-hud" style={{ fontSize: '2.5rem', fontWeight: '900', color: '#FFF' }}>
           PROJECT VAULT <span style={{ color: accentColor }}>& MISSIONS</span>
@@ -35,7 +35,7 @@ export default function ProjectsPage({ isSpiderSense, playWebSound }) {
               fontWeight: 'bold',
               background: filter === cat ? accentColor : 'rgba(14, 17, 23, 0.9)',
               color: filter === cat ? '#08090C' : '#9CA3AF',
-              border: `1px solid ${filter === cat ? accentColor : 'var(--ln-border)'}`,
+              border: `1px solid ${filter === cat ? accentColor : 'var(--card-border)'}`,
               cursor: 'pointer',
               transform: 'skewX(-6deg)'
             }}
@@ -46,11 +46,11 @@ export default function ProjectsPage({ isSpiderSense, playWebSound }) {
       </div>
 
       {/* Grid */}
-      <div className="ln-grid-2">
+      <div className="spider-grid-2">
         {filteredProjects.map((project, idx) => (
-          <div key={idx} className="ln-card" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div key={idx} className="spider-card" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             
-            <div style={{ height: '220px', width: '100%', position: 'relative', overflow: 'hidden', borderBottom: '1px solid var(--ln-border)' }}>
+            <div style={{ height: '220px', width: '100%', position: 'relative', overflow: 'hidden', borderBottom: '1px solid var(--card-border)' }}>
               <img src={project.image} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               <div style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
                 <span className="sticker-tag" style={{ background: accentColor, color: '#08090C' }}>
@@ -69,7 +69,7 @@ export default function ProjectsPage({ isSpiderSense, playWebSound }) {
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '2rem' }}>
                 {project.technologies.map(t => (
-                  <span key={t} style={{ fontSize: '0.75rem', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--ln-border)', padding: '0.2rem 0.5rem', color: '#9CA3AF' }}>
+                  <span key={t} style={{ fontSize: '0.75rem', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--card-border)', padding: '0.2rem 0.5rem', color: '#9CA3AF' }}>
                     {t}
                   </span>
                 ))}
@@ -78,19 +78,19 @@ export default function ProjectsPage({ isSpiderSense, playWebSound }) {
               <div style={{ display: 'flex', gap: '1rem', marginTop: 'auto' }}>
                 <button
                   onClick={() => { playWebSound(); setSelectedProject(project); }}
-                  className="ln-btn"
+                  className="spider-btn"
                   style={{ flex: 1, padding: '0.6rem 1rem', fontSize: '0.75rem' }}
                 >
                   <span>DEBRIEF LOG</span> <ArrowUpRight size={16} />
                 </button>
 
                 {project.links.github && (
-                  <a href={project.links.github} target="_blank" rel="noreferrer" className="ln-btn ln-btn-secondary" style={{ padding: '0.6rem' }}>
+                  <a href={project.links.github} target="_blank" rel="noreferrer" className="spider-btn spider-btn-secondary" style={{ padding: '0.6rem' }}>
                     <Github size={18} />
                   </a>
                 )}
                 {project.links.live && (
-                  <a href={project.links.live} target="_blank" rel="noreferrer" className="ln-btn ln-btn-secondary" style={{ padding: '0.6rem' }}>
+                  <a href={project.links.live} target="_blank" rel="noreferrer" className="spider-btn spider-btn-secondary" style={{ padding: '0.6rem' }}>
                     <ExternalLink size={18} />
                   </a>
                 )}

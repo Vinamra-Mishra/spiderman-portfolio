@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { skillsCategory } from '../data/portfolioData';
-import { Zap, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 export default function SkillsPage({ isSpiderSense }) {
   const [activeCategory, setActiveCategory] = useState(0);
-  const accentColor = isSpiderSense ? 'var(--spider-red)' : 'var(--ln-neon)';
+  const accentColor = isSpiderSense ? 'var(--spider-red)' : 'var(--neon-yellow)';
 
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       
-      <div className="ln-card">
-        <div className="ln-number">02</div>
+      <div className="spider-card">
+        <div className="card-number">02</div>
         <div className="sticker-tag" style={{ marginBottom: '1rem' }}>TECH ARSENAL // COMBAT ABILITIES</div>
         <h1 className="font-hud" style={{ fontSize: '2.5rem', fontWeight: '900', color: '#FFF' }}>
           EQUIPMENT <span style={{ color: accentColor }}>& ABILITIES MATRIX</span>
@@ -30,7 +30,7 @@ export default function SkillsPage({ isSpiderSense }) {
               fontWeight: 'bold',
               background: activeCategory === idx ? accentColor : 'rgba(14, 17, 23, 0.9)',
               color: activeCategory === idx ? '#08090C' : '#9CA3AF',
-              border: `1px solid ${activeCategory === idx ? accentColor : 'var(--ln-border)'}`,
+              border: `1px solid ${activeCategory === idx ? accentColor : 'var(--card-border)'}`,
               cursor: 'pointer',
               transform: 'skewX(-6deg)'
             }}
@@ -41,9 +41,9 @@ export default function SkillsPage({ isSpiderSense }) {
       </div>
 
       {/* Cards */}
-      <div className="ln-grid-3">
+      <div className="spider-grid-3">
         {skillsCategory[activeCategory].skills.map((skill, idx) => (
-          <div key={idx} className="ln-card" style={{ padding: '1.75rem' }}>
+          <div key={idx} className="spider-card" style={{ padding: '1.75rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
               <h3 className="font-hud" style={{ fontSize: '1.15rem', color: '#FFF' }}>{skill.name}</h3>
               <span className="font-hud" style={{ background: accentColor, color: '#08090C', fontSize: '0.65rem', padding: '0.2rem 0.5rem', fontWeight: '900' }}>
@@ -55,7 +55,7 @@ export default function SkillsPage({ isSpiderSense }) {
               {skill.description}
             </p>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', color: '#6B7280', borderTop: '1px solid var(--ln-border)', paddingTop: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', color: '#6B7280', borderTop: '1px solid var(--card-border)', paddingTop: '0.75rem' }}>
               <CheckCircle2 size={14} color={accentColor} /> PRODUCTION VERIFIED
             </div>
           </div>

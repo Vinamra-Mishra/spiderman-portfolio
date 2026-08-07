@@ -116,7 +116,7 @@ function WebParticles({ isSpiderSense }) {
 function Loader() {
   return (
     <Html center>
-      <div className="font-hud" style={{ color: 'var(--ln-neon)', background: '#08090C', padding: '0.8rem 1.5rem', border: '2px solid var(--ln-neon)', fontSize: '0.8rem' }}>
+      <div className="font-hud" style={{ color: 'var(--neon-yellow)', background: '#08090C', padding: '0.8rem 1.5rem', border: '2px solid var(--neon-yellow)', fontSize: '0.8rem' }}>
         LOADING CANVAS...
       </div>
     </Html>

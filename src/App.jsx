@@ -7,10 +7,10 @@ import SkillsPage from './pages/SkillsPage';
 import ProjectsPage from './pages/ProjectsPage';
 import TimelinePage from './pages/TimelinePage';
 import ContactPage from './pages/ContactPage';
-import { Zap, Volume2, VolumeX } from 'lucide-react';
+import { Volume2, VolumeX } from 'lucide-react';
 import './styles/index.css';
 
-function LNNavbar({ isSpiderSense, toggleSpiderSense, soundEnabled, setSoundEnabled, playWebSound }) {
+function Navbar({ isSpiderSense, toggleSpiderSense, soundEnabled, setSoundEnabled, playWebSound }) {
   const location = useLocation();
 
   const links = [
@@ -24,21 +24,21 @@ function LNNavbar({ isSpiderSense, toggleSpiderSense, soundEnabled, setSoundEnab
 
   return (
     <>
-      <nav className="ln-navbar">
-        <NavLink to="/" className="ln-logo-mark" onClick={playWebSound}>
-          <div className="ln-badge">VKM</div>
+      <nav className="app-navbar">
+        <NavLink to="/" className="app-logo-mark" onClick={playWebSound}>
+          <div className="app-badge">VKM</div>
           <div className="font-hud" style={{ fontSize: '1.1rem', fontWeight: '900', color: '#FFF', letterSpacing: '2px' }}>
             VINAMRA
           </div>
         </NavLink>
 
-        <div className="ln-nav-links">
+        <div className="app-nav-links">
           {links.map((link) => (
             <NavLink
               key={link.path}
               to={link.path}
               onClick={playWebSound}
-              className={`ln-nav-link ${location.pathname === link.path ? 'active' : ''}`}
+              className={`app-nav-link ${location.pathname === link.path ? 'active' : ''}`}
             >
               {link.label}
             </NavLink>
@@ -49,7 +49,7 @@ function LNNavbar({ isSpiderSense, toggleSpiderSense, soundEnabled, setSoundEnab
           <button
             onClick={() => { playWebSound(); toggleSpiderSense(); }}
             style={{
-              background: isSpiderSense ? 'var(--spider-red)' : 'var(--ln-neon)',
+              background: isSpiderSense ? 'var(--spider-red)' : 'var(--neon-yellow)',
               color: isSpiderSense ? '#FFF' : '#08090C',
               fontFamily: 'var(--font-hud)',
               fontWeight: '900',
@@ -65,7 +65,7 @@ function LNNavbar({ isSpiderSense, toggleSpiderSense, soundEnabled, setSoundEnab
 
           <button
             onClick={() => { setSoundEnabled(!soundEnabled); playWebSound(); }}
-            style={{ background: 'transparent', border: 'none', color: soundEnabled ? 'var(--ln-neon)' : '#6B7280', cursor: 'pointer' }}
+            style={{ background: 'transparent', border: 'none', color: soundEnabled ? 'var(--neon-yellow)' : '#6B7280', cursor: 'pointer' }}
           >
             {soundEnabled ? <Volume2 size={22} /> : <VolumeX size={22} />}
           </button>
@@ -111,10 +111,10 @@ export default function App() {
 
   return (
     <Router>
-      <div className="ln-wrapper">
+      <div className="app-wrapper">
         <SpiderBackground isSpiderSense={isSpiderSense} />
 
-        <LNNavbar 
+        <Navbar 
           isSpiderSense={isSpiderSense} 
           toggleSpiderSense={toggleSpiderSense}
           soundEnabled={soundEnabled}
@@ -122,7 +122,7 @@ export default function App() {
           playWebSound={playWebSound}
         />
 
-        <main className="ln-viewport">
+        <main className="app-viewport">
           <Routes>
             <Route path="/" element={<HomePage isSpiderSense={isSpiderSense} playWebSound={playWebSound} />} />
             <Route path="/about" element={<AboutPage isSpiderSense={isSpiderSense} />} />

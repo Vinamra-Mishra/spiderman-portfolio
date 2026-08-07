@@ -3,23 +3,23 @@ import { certifications, statsHUD } from '../data/portfolioData';
 import { Award, BookOpen, Cpu } from 'lucide-react';
 
 export default function AboutPage({ isSpiderSense }) {
-  const accentColor = isSpiderSense ? 'var(--spider-red)' : 'var(--ln-neon)';
+  const accentColor = isSpiderSense ? 'var(--spider-red)' : 'var(--neon-yellow)';
 
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       
       {/* Header Banner */}
-      <div className="ln-card">
-        <div className="ln-number">01</div>
+      <div className="spider-card">
+        <div className="card-number">01</div>
         <div className="sticker-tag" style={{ marginBottom: '1rem' }}>PETER PARKER LAB // ORIGIN & SPECS</div>
         <h1 className="font-hud" style={{ fontSize: '2.5rem', fontWeight: '900', color: '#FFF' }}>
           SUIT SPECIFICATIONS <span style={{ color: accentColor }}>& METRICS</span>
         </h1>
       </div>
 
-      <div className="ln-grid-2">
+      <div className="spider-grid-2">
         {/* System Capacity */}
-        <div className="ln-card">
+        <div className="spider-card">
           <h3 className="font-hud" style={{ fontSize: '1.2rem', color: accentColor, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Cpu size={20} /> TELEMETRY DIAGNOSTICS
           </h3>
@@ -39,7 +39,7 @@ export default function AboutPage({ isSpiderSense }) {
         </div>
 
         {/* Academic Origin */}
-        <div className="ln-card">
+        <div className="spider-card">
           <h3 className="font-hud" style={{ fontSize: '1.2rem', color: accentColor, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <BookOpen size={20} /> ACADEMIC BASE
           </h3>
@@ -51,7 +51,7 @@ export default function AboutPage({ isSpiderSense }) {
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
             {['Algorithms', 'Data Structures', 'Operating Systems', 'DBMS', 'Networks'].map(c => (
-              <span key={c} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--ln-border)', padding: '0.2rem 0.6rem', fontSize: '0.75rem', color: '#FFF' }}>
+              <span key={c} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--card-border)', padding: '0.2rem 0.6rem', fontSize: '0.75rem', color: '#FFF' }}>
                 {c}
               </span>
             ))}
@@ -60,13 +60,13 @@ export default function AboutPage({ isSpiderSense }) {
       </div>
 
       {/* Certifications Grid */}
-      <div className="ln-card">
+      <div className="spider-card">
         <h3 className="font-hud" style={{ fontSize: '1.3rem', color: '#FFF', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Award size={22} color={accentColor} /> VERIFIED CERTIFICATIONS & CLEARANCES
         </h3>
-        <div className="ln-grid-2">
+        <div className="spider-grid-2">
           {certifications.map((cert, idx) => (
-            <div key={idx} style={{ background: 'rgba(0,0,0,0.5)', padding: '1.25rem', border: '1px solid var(--ln-border)', display: 'flex', gap: '1rem' }}>
+            <div key={idx} style={{ background: 'rgba(0,0,0,0.5)', padding: '1.25rem', border: '1px solid var(--card-border)', display: 'flex', gap: '1rem' }}>
               <div style={{ background: accentColor, color: '#08090C', padding: '0.8rem', height: 'fit-content' }}>
                 <cert.icon size={22} />
               </div>

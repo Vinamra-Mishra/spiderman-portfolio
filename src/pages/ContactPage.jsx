@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Github, Linkedin, Send, ArrowUpRight } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Linkedin, Send } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export default function ContactPage({ isSpiderSense }) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
-  const accentColor = isSpiderSense ? 'var(--spider-red)' : 'var(--ln-neon)';
+  const accentColor = isSpiderSense ? 'var(--spider-red)' : 'var(--neon-yellow)';
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,17 +17,17 @@ export default function ContactPage({ isSpiderSense }) {
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       
-      <div className="ln-card">
-        <div className="ln-number">05</div>
+      <div className="spider-card">
+        <div className="card-number">05</div>
         <div className="sticker-tag" style={{ marginBottom: '1rem' }}>LAUNCH SIGNAL // CONTACT TERMINAL</div>
         <h1 className="font-hud" style={{ fontSize: '2.5rem', fontWeight: '900', color: '#FFF' }}>
           SEND A <span style={{ color: accentColor }}>SPIDER-SIGNAL</span>
         </h1>
       </div>
 
-      <div className="ln-grid-2">
+      <div className="spider-grid-2">
         {/* Info */}
-        <div className="ln-card">
+        <div className="spider-card">
           <h3 className="font-hud" style={{ fontSize: '1.3rem', color: '#FFF', marginBottom: '2rem' }}>DIRECT FREQUENCIES</h3>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '2.5rem' }}>
@@ -57,17 +57,17 @@ export default function ContactPage({ isSpiderSense }) {
           </div>
 
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <a href="https://github.com/vinamramishra" target="_blank" rel="noreferrer" className="ln-btn ln-btn-secondary" style={{ flex: 1, padding: '0.6rem', fontSize: '0.75rem' }}>
+            <a href="https://github.com/Vinamra-Mishra" target="_blank" rel="noreferrer" className="spider-btn spider-btn-secondary" style={{ flex: 1, padding: '0.6rem', fontSize: '0.75rem' }}>
               <Github size={16} /> <span>GITHUB</span>
             </a>
-            <a href="https://linkedin.com/in/vinamramishra" target="_blank" rel="noreferrer" className="ln-btn ln-btn-secondary" style={{ flex: 1, padding: '0.6rem', fontSize: '0.75rem' }}>
+            <a href="https://linkedin.com/in/vinamramishra" target="_blank" rel="noreferrer" className="spider-btn spider-btn-secondary" style={{ flex: 1, padding: '0.6rem', fontSize: '0.75rem' }}>
               <Linkedin size={16} /> <span>LINKEDIN</span>
             </a>
           </div>
         </div>
 
         {/* Form */}
-        <div className="ln-card">
+        <div className="spider-card">
           <h3 className="font-hud" style={{ fontSize: '1.3rem', color: '#FFF', marginBottom: '2rem' }}>TRANSMIT SIGNAL</h3>
 
           {submitted ? (
@@ -84,7 +84,7 @@ export default function ContactPage({ isSpiderSense }) {
                   required 
                   value={formData.name} 
                   onChange={e => setFormData({...formData, name: e.target.value})}
-                  style={{ width: '100%', padding: '0.8rem', background: 'rgba(0,0,0,0.6)', border: '1px solid var(--ln-border)', color: '#FFF', outline: 'none' }}
+                  style={{ width: '100%', padding: '0.8rem', background: 'rgba(0,0,0,0.6)', border: '1px solid var(--card-border)', color: '#FFF', outline: 'none' }}
                 />
               </div>
 
@@ -95,7 +95,7 @@ export default function ContactPage({ isSpiderSense }) {
                   required 
                   value={formData.email} 
                   onChange={e => setFormData({...formData, email: e.target.value})}
-                  style={{ width: '100%', padding: '0.8rem', background: 'rgba(0,0,0,0.6)', border: '1px solid var(--ln-border)', color: '#FFF', outline: 'none' }}
+                  style={{ width: '100%', padding: '0.8rem', background: 'rgba(0,0,0,0.6)', border: '1px solid var(--card-border)', color: '#FFF', outline: 'none' }}
                 />
               </div>
 
@@ -106,11 +106,11 @@ export default function ContactPage({ isSpiderSense }) {
                   required 
                   value={formData.message} 
                   onChange={e => setFormData({...formData, message: e.target.value})}
-                  style={{ width: '100%', padding: '0.8rem', background: 'rgba(0,0,0,0.6)', border: '1px solid var(--ln-border)', color: '#FFF', outline: 'none', resize: 'none' }}
+                  style={{ width: '100%', padding: '0.8rem', background: 'rgba(0,0,0,0.6)', border: '1px solid var(--card-border)', color: '#FFF', outline: 'none', resize: 'none' }}
                 />
               </div>
 
-              <button type="submit" className="ln-btn" style={{ width: '100%', marginTop: '0.5rem', justifyContent: 'center' }}>
+              <button type="submit" className="spider-btn" style={{ width: '100%', marginTop: '0.5rem', justifyContent: 'center' }}>
                 <span>TRANSMIT SIGNAL</span> <Send size={16} />
               </button>
             </form>

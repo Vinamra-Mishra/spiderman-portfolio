@@ -1,6 +1,6 @@
-# 🕷️ Spider-Man: Brand New Day Portfolio (Lando Norris Edition)
+# 🕷️ Spider-Man: Brand New Day Portfolio
 
-An interactive, high-performance 3D portfolio combining a **Spider-Man Brand New Day theme** with the bold, high-speed editorial design aesthetic of **Lando Norris's official website (landonorris.com)**.
+An interactive, high-performance 3D portfolio featuring a **Spider-Man Brand New Day theme** with high-speed editorial aesthetics, dynamic WebGL elements, and responsive layout.
 
 ![React](https://img.shields.io/badge/React-18-blue?logo=react)
 ![Three.js](https://img.shields.io/badge/Three.js-WebGL-black?logo=three.js)
@@ -11,8 +11,8 @@ An interactive, high-performance 3D portfolio combining a **Spider-Man Brand New
 
 ## ✨ Features
 
-- 🏎️ **Lando Norris High-Performance Editorial UI**:
-  - Iconic **Neon Yellow (`#D2FF00`)** + **Jet Black (`#08090C`)** + **Spider Red (`#E11D48`)** color palette.
+- 🏎️ **High-Performance Editorial UI**:
+  - Signature **Neon Yellow (`#D2FF00`)** + **Jet Black (`#08090C`)** + **Spider Red (`#E11D48`)** color palette.
   - Infinite marquee ticker banner with smooth CSS animations.
   - Modular **"ON TRACK"** (Engineering & AI) vs **"OFF TRACK"** (Origin & Specs) layout structure.
   - Oversized display typography and sharp geometric grid cards.
@@ -54,7 +54,7 @@ An interactive, high-performance 3D portfolio combining a **Spider-Man Brand New
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/vinamramishra/spiderman-portfolio.git
+   git clone https://github.com/Vinamra-Mishra/spiderman-portfolio.git
    cd spiderman-portfolio
    ```
 
@@ -96,7 +96,7 @@ An interactive, high-performance 3D portfolio combining a **Spider-Man Brand New
 │   ├── data/
 │   │   └── portfolioData.js    # Centralized Portfolio Data
 │   ├── styles/
-│   │   └── index.css           # Lando Norris Editorial Design System
+│   │   └── index.css           # Editorial Design System
 │   ├── App.jsx                 # App Shell & Router Settings
 │   └── main.jsx                # Application Entry Point
 ├── README.md
@@ -109,7 +109,7 @@ An interactive, high-performance 3D portfolio combining a **Spider-Man Brand New
 
 **Vinamra Kumar Mishra**  
 - Email: vinamrakumarmishra@gmail.com
-- GitHub: [@vinamramishra](https://github.com/vinamramishra)
+- GitHub: [@Vinamra-Mishra](https://github.com/Vinamra-Mishra)
 - LinkedIn: [Vinamra Mishra](https://linkedin.com/in/vinamramishra)
 
 ---

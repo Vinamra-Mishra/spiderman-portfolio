@@ -1,14 +1,14 @@
-/* Lando Norris X Spider-Man: High-Performance Editorial UI System (Fluid Scaling) */
+/* Spider-Man: Brand New Day - High-Performance Editorial UI System */
 
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Orbitron:wght@600;800;900&family=Outfit:wght@300;400;600;700;900&family=Syne:wght@700;800&display=swap');
 
 :root {
-  /* Colors */
-  --ln-neon: #D2FF00;          /* Signature Neon Yellow/Lime */
-  --ln-neon-glow: rgba(210, 255, 0, 0.4);
-  --ln-black: #08090C;         /* Jet Black */
-  --ln-card-bg: rgba(14, 17, 23, 0.88);
-  --ln-border: #1E2430;
+  /* Core Theme Colors */
+  --neon-yellow: #D2FF00;       /* Signature Neon Lime */
+  --neon-yellow-glow: rgba(210, 255, 0, 0.4);
+  --theme-black: #08090C;       /* Jet Black */
+  --card-bg: rgba(14, 17, 23, 0.88);
+  --card-border: #1E2430;
   
   /* Spider Accents */
   --spider-red: #E11D48;
@@ -30,21 +30,21 @@
 html, body {
   width: 100%;
   height: 100%;
-  background-color: var(--ln-black);
+  background-color: var(--theme-black);
   color: #FFFFFF;
   font-family: var(--font-body);
   overflow-x: hidden;
 }
 
-/* Custom LN Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--ln-black);
+  background: var(--theme-black);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--ln-neon);
+  background: var(--neon-yellow);
 }
 
 /* 3D Fixed Background Canvas Layer */
@@ -59,7 +59,7 @@ html, body {
 }
 
 /* Layout Wrapper */
-.ln-wrapper {
+.app-wrapper {
   position: relative;
   z-index: 1;
   min-height: 100vh;
@@ -68,7 +68,7 @@ html, body {
 }
 
 /* Fluid Top Navigation Bar */
-.ln-navbar {
+.app-navbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -77,23 +77,23 @@ html, body {
   height: clamp(3.5rem, 5vh, 4.5rem);
   background: rgba(8, 9, 12, 0.92);
   backdrop-filter: blur(20px);
-  border-bottom: 2px solid var(--ln-neon);
+  border-bottom: 2px solid var(--neon-yellow);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 clamp(1rem, 4vw, 2.5rem);
 }
 
-.ln-logo-mark {
+.app-logo-mark {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   text-decoration: none;
 }
 
-.ln-badge {
-  background: var(--ln-neon);
-  color: var(--ln-black);
+.app-badge {
+  background: var(--neon-yellow);
+  color: var(--theme-black);
   font-family: var(--font-hud);
   font-weight: 900;
   font-size: clamp(0.9rem, 1.5vw, 1.1rem);
@@ -101,12 +101,12 @@ html, body {
   transform: skewX(-10deg);
 }
 
-.ln-nav-links {
+.app-nav-links {
   display: flex;
   gap: clamp(0.8rem, 2vw, 1.5rem);
 }
 
-.ln-nav-link {
+.app-nav-link {
   color: #9CA3AF;
   font-family: var(--font-hud);
   font-size: clamp(0.7rem, 1vw, 0.85rem);
@@ -119,28 +119,28 @@ html, body {
   position: relative;
 }
 
-.ln-nav-link:hover, .ln-nav-link.active {
-  color: var(--ln-neon);
+.app-nav-link:hover, .app-nav-link.active {
+  color: var(--neon-yellow);
   background: rgba(210, 255, 0, 0.08);
 }
 
-.ln-nav-link.active::after {
+.app-nav-link.active::after {
   content: '';
   position: absolute;
   bottom: -2px;
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--ln-neon);
-  box-shadow: 0 0 10px var(--ln-neon);
+  background: var(--neon-yellow);
+  box-shadow: 0 0 10px var(--neon-yellow);
 }
 
 /* Infinite Marquee Banner */
 .marquee-container {
   width: 100%;
   overflow: hidden;
-  background: var(--ln-neon);
-  color: var(--ln-black);
+  background: var(--neon-yellow);
+  color: var(--theme-black);
   padding: clamp(0.3rem, 0.8vh, 0.5rem) 0;
   white-space: nowrap;
   font-family: var(--font-hud);
@@ -164,7 +164,7 @@ html, body {
 }
 
 /* Main Viewport Container */
-.ln-viewport {
+.app-viewport {
   max-width: 1400px;
   width: 100%;
   margin: clamp(1.2rem, 3vw, 2.5rem) auto;
@@ -172,23 +172,23 @@ html, body {
   flex: 1;
 }
 
-/* Lando Norris Style Editorial Grid Card */
-.ln-card {
-  background: var(--ln-card-bg);
+/* Editorial Grid Card */
+.spider-card {
+  background: var(--card-bg);
   backdrop-filter: blur(16px);
-  border: 1px solid var(--ln-border);
+  border: 1px solid var(--card-border);
   position: relative;
   padding: clamp(1.25rem, 3.5vw, 2.5rem);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.ln-card:hover {
-  border-color: var(--ln-neon);
+.spider-card:hover {
+  border-color: var(--neon-yellow);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(210, 255, 0, 0.15);
 }
 
 /* Fluid Number Accent */
-.ln-number {
+.card-number {
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   color: rgba(255, 255, 255, 0.08);
@@ -201,12 +201,12 @@ html, body {
 }
 
 /* High-Contrast Action Button */
-.ln-btn {
+.spider-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--ln-neon);
-  color: var(--ln-black);
+  background: var(--neon-yellow);
+  color: var(--theme-black);
   font-family: var(--font-hud);
   font-weight: 900;
   font-size: clamp(0.75rem, 1.1vw, 0.85rem);
@@ -217,29 +217,29 @@ html, body {
   cursor: pointer;
   transform: skewX(-6deg);
   transition: all 0.2s ease;
-  box-shadow: 0 0 15px var(--ln-neon-glow);
+  box-shadow: 0 0 15px var(--neon-yellow-glow);
 }
 
-.ln-btn span {
+.spider-btn span {
   transform: skewX(6deg);
 }
 
-.ln-btn:hover {
+.spider-btn:hover {
   background: #FFF;
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
   transform: skewX(-6deg) translateY(-2px);
 }
 
-.ln-btn-secondary {
+.spider-btn-secondary {
   background: transparent;
   color: #FFF;
-  border: 2px solid var(--ln-neon);
+  border: 2px solid var(--neon-yellow);
   box-shadow: none;
 }
 
-.ln-btn-secondary:hover {
-  background: var(--ln-neon);
-  color: var(--ln-black);
+.spider-btn-secondary:hover {
+  background: var(--neon-yellow);
+  color: var(--theme-black);
 }
 
 /* Sticker Tag */
@@ -257,13 +257,13 @@ html, body {
 }
 
 /* Fluid Layout Grids */
-.ln-grid-2 { 
+.spider-grid-2 { 
   display: grid; 
   grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 30vw, 360px), 1fr)); 
   gap: clamp(1.25rem, 2.5vw, 2rem); 
 }
 
-.ln-grid-3 { 
+.spider-grid-3 { 
   display: grid; 
   grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 25vw, 320px), 1fr)); 
   gap: clamp(1.25rem, 2.5vw, 2rem); 
@@ -271,6 +271,6 @@ html, body {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .ln-nav-links { display: none; }
-  .ln-card { padding: 1.25rem; }
+  .app-nav-links { display: none; }
+  .spider-card { padding: 1.25rem; }
 }

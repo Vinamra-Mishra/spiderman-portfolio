@@ -2,13 +2,13 @@ import React from 'react';
 import { timelineEvents } from '../data/portfolioData';
 
 export default function TimelinePage({ isSpiderSense }) {
-  const accentColor = isSpiderSense ? 'var(--spider-red)' : 'var(--ln-neon)';
+  const accentColor = isSpiderSense ? 'var(--spider-red)' : 'var(--neon-yellow)';
 
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       
-      <div className="ln-card">
-        <div className="ln-number">04</div>
+      <div className="spider-card">
+        <div className="card-number">04</div>
         <div className="sticker-tag" style={{ marginBottom: '1rem' }}>WEB TRAJECTORY // CAREER CHRONICLES</div>
         <h1 className="font-hud" style={{ fontSize: '2.5rem', fontWeight: '900', color: '#FFF' }}>
           CAREER TIMELINE <span style={{ color: accentColor }}>& NODES</span>
@@ -17,8 +17,8 @@ export default function TimelinePage({ isSpiderSense }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {timelineEvents.map((event, idx) => (
-          <div key={idx} className="ln-card">
-            <div className="ln-number">0{idx + 1}</div>
+          <div key={idx} className="spider-card">
+            <div className="card-number">0{idx + 1}</div>
             
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
               <div>
